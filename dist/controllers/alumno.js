@@ -23,7 +23,7 @@ const postAlumno = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     catch (error) {
         console.log(error);
         res.json({
-            msg: `Upps ocurrio un error, comuniquese con soporte`
+            msg: `Ocurrió un error`
         });
     }
 });
@@ -48,15 +48,32 @@ const getAlumno = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.getAlumno = getAlumno;
 //UPDATE
-const updateAlumno = (req, res) => {
+const updateAlumno = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
     const { id } = req.params;
-    res.json({
-        msg: "update Alumno",
-        id,
-        body
-    });
-};
+    try {
+        const alumno = yield alumno_1.Alumno.findByPk(id);
+        if (alumno) {
+            yield alumno.update(body);
+            res.json({
+                msg: `Los datos del alumno fueron actualizados con exito`
+            });
+        }
+        else {
+            res.status(404).json({
+                msg: {
+                    msg: `No existe un alumno con el id ${id}`
+                }
+            });
+        }
+    }
+    catch (error) {
+        console.log(error);
+        res.json({
+            msg: `Ocurrió un error`
+        });
+    }
+});
 exports.updateAlumno = updateAlumno;
 //DELETE
 const deleteAlumno = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

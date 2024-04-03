@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import db from '../db/connection';
 
-const Cita = db.define('cita', {
+export const Cita = db.define('cita', {
     cita_id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -33,5 +33,3 @@ const Cita = db.define('cita', {
     createdAt: false,
     updatedAt: false
 });
-
-export default Cita;

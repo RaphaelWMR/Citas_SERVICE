@@ -13,7 +13,7 @@ export const postAlumno = async (req: Request, res: Response) => {
     } catch (error) {
         console.log(error);
         res.json({
-            msg: `Upps ocurrio un error, comuniquese con soporte`
+            msg: `Ocurrió un error`
         });
     }
 };
@@ -37,14 +37,30 @@ export const getAlumno = async (req: Request, res: Response) => {
 }
 
 //UPDATE
-export const updateAlumno = (req: Request, res: Response) => {
+export const updateAlumno = async (req: Request, res: Response) => {
     const { body } = req;
     const { id } = req.params;
-    res.json({
-        msg: "update Alumno",
-        id,
-        body
-    })
+    try {
+        const alumno = await Alumno.findByPk(id);
+        if (alumno) {
+            await alumno.update(body);
+            res.json({
+                msg: `Los datos del alumno fueron actualizados con exito`
+            })
+        } else {
+            res.status(404).json({
+                msg: {
+                    msg: `No existe un alumno con el id ${id}`
+                }
+            });
+        }
+    } catch (error) {
+        console.log(error);
+        res.json({
+            msg: `Ocurrió un error`
+        });
+    }
+
 }
 
 //DELETE
