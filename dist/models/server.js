@@ -15,11 +15,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const alumno_1 = __importDefault(require("../routes/alumno"));
 const connection_1 = __importDefault(require("../db/connection"));
+const cors_1 = __importDefault(require("cors"));
+const alumno_2 = require("./alumno");
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || '3001';
         this.listen();
+        this.midlewares();
         this.routes();
         this.dbConnect();
     }
@@ -29,17 +32,18 @@ class Server {
         });
     }
     routes() {
-        this.app.get('/', (req, res) => {
-            res.json({
-                msg: 'API Working'
-            });
-        });
         this.app.use('/api/alumnos', alumno_1.default);
+    }
+    midlewares() {
+        this.app.use(express_1.default.json());
+        // Cors
+        this.app.use((0, cors_1.default)());
     }
     dbConnect() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 yield connection_1.default.authenticate();
+                yield alumno_2.Alumno.sync();
                 console.log('[FisiBienestar] >>>>>>>>>>>>>>>>>>>> Successful Database Connection');
             }
             catch (error) {

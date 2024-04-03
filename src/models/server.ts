@@ -1,15 +1,18 @@
 import express, { Application, Request, Response } from 'express';
 import routesAlumno from '../routes/alumno';
 import db from '../db/connection';
+import cors from 'cors';
+import { Alumno } from './alumno';
 
 class Server {
-    private app: express.Application;
+    private app: Application;
     private port: string;
 
     constructor() {
         this.app = express();
         this.port = process.env.PORT || '3001';
         this.listen();
+        this.midlewares();
         this.routes();
         this.dbConnect();
     }
@@ -21,17 +24,18 @@ class Server {
     }
 
     routes() {
-        this.app.get('/', (req: Request, res: Response) => {
-            res.json({
-                msg: 'API Working'
-            })
-        })
         this.app.use('/api/alumnos', routesAlumno);
+    }
+    midlewares() {
+        this.app.use(express.json());
+        // Cors
+        this.app.use(cors());
     }
 
     async dbConnect() {
         try {
             await db.authenticate();
+            await Alumno.sync();
             console.log('[FisiBienestar] >>>>>>>>>>>>>>>>>>>> Successful Database Connection');
         } catch (error) {
             console.log('[FisiBienestar] >>>>>>>>>>>>>>>>>>>> Failed Database Connection');
