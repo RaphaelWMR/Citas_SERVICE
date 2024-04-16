@@ -1,6 +1,9 @@
 import { DataTypes } from 'sequelize';
 import db from '../db/connection';
 import { Alumno } from './alumno';
+import { CitaModalidad } from './citamodalidad';
+import { CitaTipo } from './citatipo';
+import { CitaConfirmacion } from './citaconfirmacion';
 
 export const Cita = db.define('cita', {
     cita_id: {
@@ -25,13 +28,25 @@ export const Cita = db.define('cita', {
         type: DataTypes.STRING
     },
     citaModalidad_id: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        references: {
+            model: CitaModalidad,
+            key: 'citaModalidad_id'
+        }
     },
     citaTipo_id: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        references: {
+            model: CitaTipo,
+            key: 'citaTipo_id'
+        }
     },
     citaConfirmacion_id: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        references: {
+            model: CitaConfirmacion,
+            key: 'citaConfirmacion_id'
+        }
     }
 }, {
     tableName: 'cita',
@@ -39,4 +54,7 @@ export const Cita = db.define('cita', {
     updatedAt: false
 });
 
-Cita.belongsTo(Alumno, { foreignKey: 'alumno_id', as: 'alumno' })
+Cita.belongsTo(Alumno, { foreignKey: 'alumno_id', as: 'alumno' });
+Cita.belongsTo(CitaConfirmacion, { foreignKey: 'citaConfirmacion_id', as: 'citaconfirmacion' });
+Cita.belongsTo(CitaModalidad, { foreignKey: 'citaModalidad_id', as: 'citamodalidad' });
+Cita.belongsTo(CitaTipo, { foreignKey: 'citaTipo_id', as: 'citatipo' });

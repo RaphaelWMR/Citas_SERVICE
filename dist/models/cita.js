@@ -7,6 +7,9 @@ exports.Cita = void 0;
 const sequelize_1 = require("sequelize");
 const connection_1 = __importDefault(require("../db/connection"));
 const alumno_1 = require("./alumno");
+const citamodalidad_1 = require("./citamodalidad");
+const citatipo_1 = require("./citatipo");
+const citaconfirmacion_1 = require("./citaconfirmacion");
 exports.Cita = connection_1.default.define('cita', {
     cita_id: {
         type: sequelize_1.DataTypes.INTEGER,
@@ -30,13 +33,25 @@ exports.Cita = connection_1.default.define('cita', {
         type: sequelize_1.DataTypes.STRING
     },
     citaModalidad_id: {
-        type: sequelize_1.DataTypes.INTEGER
+        type: sequelize_1.DataTypes.INTEGER,
+        references: {
+            model: citamodalidad_1.CitaModalidad,
+            key: 'citaModalidad_id'
+        }
     },
     citaTipo_id: {
-        type: sequelize_1.DataTypes.INTEGER
+        type: sequelize_1.DataTypes.INTEGER,
+        references: {
+            model: citatipo_1.CitaTipo,
+            key: 'citaTipo_id'
+        }
     },
     citaConfirmacion_id: {
-        type: sequelize_1.DataTypes.INTEGER
+        type: sequelize_1.DataTypes.INTEGER,
+        references: {
+            model: citaconfirmacion_1.CitaConfirmacion,
+            key: 'citaConfirmacion_id'
+        }
     }
 }, {
     tableName: 'cita',
@@ -44,3 +59,6 @@ exports.Cita = connection_1.default.define('cita', {
     updatedAt: false
 });
 exports.Cita.belongsTo(alumno_1.Alumno, { foreignKey: 'alumno_id', as: 'alumno' });
+exports.Cita.belongsTo(citaconfirmacion_1.CitaConfirmacion, { foreignKey: 'citaConfirmacion_id', as: 'citaconfirmacion' });
+exports.Cita.belongsTo(citamodalidad_1.CitaModalidad, { foreignKey: 'citaModalidad_id', as: 'citamodalidad' });
+exports.Cita.belongsTo(citatipo_1.CitaTipo, { foreignKey: 'citaTipo_id', as: 'citatipo' });

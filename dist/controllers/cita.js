@@ -12,6 +12,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteCita = exports.updateCita = exports.getCita = exports.getCitas = exports.postCita = void 0;
 const cita_1 = require("../models/cita");
 const alumno_1 = require("../models/alumno");
+const citaconfirmacion_1 = require("../models/citaconfirmacion");
+const citamodalidad_1 = require("../models/citamodalidad");
+const citatipo_1 = require("../models/citatipo");
 // CREATE
 const postCita = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
@@ -34,7 +37,12 @@ const getCitas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
     try {
         const listCitas = yield cita_1.Cita.findAll({
-            include: [{ model: alumno_1.Alumno, as: 'alumno' }]
+            include: [
+                { model: alumno_1.Alumno, as: 'alumno' },
+                { model: citaconfirmacion_1.CitaConfirmacion, as: 'citaconfirmacion' },
+                { model: citamodalidad_1.CitaModalidad, as: 'citamodalidad' },
+                { model: citatipo_1.CitaTipo, as: 'citatipo' },
+            ]
         });
         res.json(listCitas);
     }

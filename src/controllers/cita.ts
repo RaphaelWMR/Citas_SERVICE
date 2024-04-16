@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import { Cita } from "../models/cita";
 import { Alumno } from "../models/alumno";
+import { CitaConfirmacion } from "../models/citaconfirmacion";
+import { CitaModalidad } from "../models/citamodalidad";
+import { CitaTipo } from "../models/citatipo";
 
 // CREATE
 export const postCita = async (req: Request, res: Response) => {
@@ -23,7 +26,12 @@ export const getCitas = async (req: Request, res: Response) => {
     const { body } = req;
     try {
         const listCitas = await Cita.findAll({
-            include: [{ model: Alumno, as: 'alumno' }]
+            include: [
+                { model: Alumno, as: 'alumno' },
+                { model: CitaConfirmacion, as: 'citaconfirmacion' },
+                { model: CitaModalidad, as: 'citamodalidad' },
+                { model: CitaTipo, as: 'citatipo' },
+            ]
         });
         res.json(listCitas);
     } catch (error) {
