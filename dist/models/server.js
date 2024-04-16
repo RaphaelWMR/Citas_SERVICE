@@ -14,9 +14,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const alumno_1 = __importDefault(require("../routes/alumno"));
+const cita_1 = __importDefault(require("../routes/cita"));
 const connection_1 = __importDefault(require("../db/connection"));
 const cors_1 = __importDefault(require("cors"));
 const alumno_2 = require("./alumno");
+const cita_2 = require("./cita");
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -33,6 +35,7 @@ class Server {
     }
     routes() {
         this.app.use('/api/alumnos', alumno_1.default);
+        this.app.use('/api/citas', cita_1.default);
     }
     midlewares() {
         this.app.use(express_1.default.json());
@@ -44,6 +47,7 @@ class Server {
             try {
                 yield connection_1.default.authenticate();
                 yield alumno_2.Alumno.sync();
+                yield cita_2.Cita.sync();
                 console.log('[FisiBienestar] >>>>>>>>>>>>>>>>>>>> Successful Database Connection');
             }
             catch (error) {
