@@ -34,9 +34,9 @@ export const getCitas = async (req: Request, res: Response) => {
 export const getCita = async (req: Request, res: Response) => {
     const { id } = req.params;
     const cita = await Cita.findByPk(id);
-    if (cita) {
+    if (cita)
         res.json(cita);
-    } else {
+    else {
         res.status(404).json({
             msg: `No existe cita con id ${id}`
         })
@@ -72,5 +72,15 @@ export const updateCita = async (req: Request, res: Response) => {
 // DELETE
 export const deleteCita = async (req: Request, res: Response) => {
     const { id } = req.params;
-    
+    const cita = await Cita.findByPk(id);
+    if (!cita)
+        res.status(404).json({
+            msg: `No existe cita con id ${id}`
+        })
+    else {
+        await Cita.destroy();
+        res.json({
+            msg: `La cita fue eliminada con exito`
+        });
+    }
 }

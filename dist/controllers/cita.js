@@ -46,9 +46,8 @@ exports.getCitas = getCitas;
 const getCita = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const cita = yield cita_1.Cita.findByPk(id);
-    if (cita) {
+    if (cita)
         res.json(cita);
-    }
     else {
         res.status(404).json({
             msg: `No existe cita con id ${id}`
@@ -87,5 +86,16 @@ exports.updateCita = updateCita;
 // DELETE
 const deleteCita = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
+    const cita = yield cita_1.Cita.findByPk(id);
+    if (!cita)
+        res.status(404).json({
+            msg: `No existe cita con id ${id}`
+        });
+    else {
+        yield cita_1.Cita.destroy();
+        res.json({
+            msg: `La cita fue eliminada con exito`
+        });
+    }
 });
 exports.deleteCita = deleteCita;

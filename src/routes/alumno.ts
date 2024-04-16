@@ -8,9 +8,10 @@ router.post('/', postAlumno);
 //READ
 router.get('/', getAlumnos);
 router.get('/:id', getAlumno);
-//DELETE
-router.delete('/:id', deleteAlumno);
 //UPDATE
 router.put('/:id', updateAlumno);
+//DELETE
+router.delete('/:id', deleteAlumno);
+
 
 export default router;
