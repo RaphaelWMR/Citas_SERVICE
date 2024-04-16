@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Cita = void 0;
 const sequelize_1 = require("sequelize");
 const connection_1 = __importDefault(require("../db/connection"));
+const alumno_1 = require("./alumno");
 exports.Cita = connection_1.default.define('cita', {
     cita_id: {
         type: sequelize_1.DataTypes.INTEGER,
@@ -13,7 +14,11 @@ exports.Cita = connection_1.default.define('cita', {
         autoIncrement: true
     },
     alumno_id: {
-        type: sequelize_1.DataTypes.INTEGER
+        type: sequelize_1.DataTypes.INTEGER,
+        references: {
+            model: alumno_1.Alumno,
+            key: 'alumno_id'
+        }
     },
     cita_fecha: {
         type: sequelize_1.DataTypes.DATEONLY
@@ -38,3 +43,4 @@ exports.Cita = connection_1.default.define('cita', {
     createdAt: false,
     updatedAt: false
 });
+exports.Cita.belongsTo(alumno_1.Alumno, { foreignKey: 'alumno_id', as: 'alumno' });

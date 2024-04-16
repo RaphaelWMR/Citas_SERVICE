@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteCita = exports.updateCita = exports.getCita = exports.getCitas = exports.postCita = void 0;
 const cita_1 = require("../models/cita");
+const alumno_1 = require("../models/alumno");
 // CREATE
 const postCita = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
@@ -32,7 +33,9 @@ exports.postCita = postCita;
 const getCitas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
     try {
-        const listCitas = yield cita_1.Cita.findAll();
+        const listCitas = yield cita_1.Cita.findAll({
+            include: [{ model: alumno_1.Alumno, as: 'alumno' }]
+        });
         res.json(listCitas);
     }
     catch (error) {

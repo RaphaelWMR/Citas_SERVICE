@@ -13,5 +13,4 @@ router.put('/:id', updateAlumno);
 //DELETE
 router.delete('/:id', deleteAlumno);
 
-
 export default router;

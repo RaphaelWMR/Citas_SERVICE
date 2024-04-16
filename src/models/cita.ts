@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import db from '../db/connection';
+import { Alumno } from './alumno';
 
 export const Cita = db.define('cita', {
     cita_id: {
@@ -8,7 +9,11 @@ export const Cita = db.define('cita', {
         autoIncrement: true
     },
     alumno_id: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        references: {
+            model: Alumno,
+            key: 'alumno_id'
+        }
     },
     cita_fecha: {
         type: DataTypes.DATEONLY
@@ -33,3 +38,5 @@ export const Cita = db.define('cita', {
     createdAt: false,
     updatedAt: false
 });
+
+Cita.belongsTo(Alumno, { foreignKey: 'alumno_id', as: 'alumno' })

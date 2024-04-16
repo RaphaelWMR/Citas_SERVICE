@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Cita } from "../models/cita";
+import { Alumno } from "../models/alumno";
 
 // CREATE
 export const postCita = async (req: Request, res: Response) => {
@@ -21,7 +22,9 @@ export const postCita = async (req: Request, res: Response) => {
 export const getCitas = async (req: Request, res: Response) => {
     const { body } = req;
     try {
-        const listCitas = await Cita.findAll();
+        const listCitas = await Cita.findAll({
+            include: [{ model: Alumno, as: 'alumno' }]
+        });
         res.json(listCitas);
     } catch (error) {
         console.log(error);
