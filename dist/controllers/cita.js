@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCita = exports.getCitas = exports.postCita = void 0;
+exports.deleteCita = exports.updateCita = exports.getCita = exports.getCitas = exports.postCita = void 0;
 const cita_1 = require("../models/cita");
 // CREATE
 const postCita = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -56,3 +56,36 @@ const getCita = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getCita = getCita;
+// UPDATE
+const updateCita = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { body } = req;
+    const { id } = req.params;
+    try {
+        const cita = yield cita_1.Cita.findByPk(id);
+        if (cita) {
+            yield cita.update(body);
+            res.json({
+                msg: `Los datos de la cita fueron actualizados con exito`
+            });
+        }
+        else {
+            res.status(404).json({
+                msg: {
+                    msg: `No existe cita con id ${id}`
+                }
+            });
+        }
+    }
+    catch (error) {
+        console.log(error);
+        res.json({
+            msg: `Ocurrió un error`
+        });
+    }
+});
+exports.updateCita = updateCita;
+// DELETE
+const deleteCita = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+});
+exports.deleteCita = deleteCita;

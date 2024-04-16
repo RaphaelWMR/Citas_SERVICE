@@ -42,3 +42,35 @@ export const getCita = async (req: Request, res: Response) => {
         })
     }
 }
+
+// UPDATE
+export const updateCita = async (req: Request, res: Response) => {
+    const { body } = req;
+    const { id } = req.params;
+    try {
+        const cita = await Cita.findByPk(id);
+        if (cita) {
+            await cita.update(body);
+            res.json({
+                msg: `Los datos de la cita fueron actualizados con exito`
+            })
+        } else {
+            res.status(404).json({
+                msg: {
+                    msg: `No existe cita con id ${id}`
+                }
+            })
+        }
+    } catch (error) {
+        console.log(error);
+        res.json({
+            msg: `Ocurrió un error`
+        })
+    }
+}
+
+// DELETE
+export const deleteCita = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    
+}

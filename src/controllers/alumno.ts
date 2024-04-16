@@ -78,4 +78,3 @@ export const deleteAlumno = async (req: Request, res: Response) => {
         });
     }
 }
-
