@@ -1,5 +1,11 @@
 import { Router } from "express";
-import { deleteCita, getCitas, postCita, updateCita } from "../controllers/cita";
+import {
+    deleteCita,
+    getCita,
+    getCitas,
+    postCita,
+    updateCita
+} from "../../controllers/cita/cita";
 
 const router = Router();
 
@@ -7,6 +13,7 @@ const router = Router();
 router.post('/', postCita);
 //READ
 router.get('/', getCitas);
+router.get('/:id', getCita);
 //UPDATE
 router.put('/:id', updateCita)
 //DELETE

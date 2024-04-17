@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { Cita } from "../models/cita";
-import { Alumno } from "../models/alumno";
-import { CitaConfirmacion } from "../models/citaconfirmacion";
-import { CitaModalidad } from "../models/citamodalidad";
-import { CitaTipo } from "../models/citatipo";
+import { Cita } from "../../models/cita";
+import { Alumno } from "../../models/alumno";
+import { CitaConfirmacion } from "../../models/citaconfirmacion";
+import { CitaModalidad } from "../../models/citamodalidad";
+import { CitaTipo } from "../../models/citatipo";
 
 // CREATE
 export const postCita = async (req: Request, res: Response) => {

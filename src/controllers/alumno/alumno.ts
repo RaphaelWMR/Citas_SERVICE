@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Alumno } from "../models/alumno";
+import { Alumno } from "../../models/alumno";
 
 //CREATE
 export const postAlumno = async (req: Request, res: Response) => {

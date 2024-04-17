@@ -13,8 +13,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const alumno_1 = __importDefault(require("../routes/alumno"));
-const cita_1 = __importDefault(require("../routes/cita"));
+const alumno_1 = __importDefault(require("../routes/alumno/alumno"));
+const cita_1 = __importDefault(require("../routes/cita/cita"));
+const citaconfirmacion_1 = __importDefault(require("../routes/cita/citaconfirmacion"));
+const citatipo_1 = __importDefault(require("../routes/cita/citatipo"));
+const citamodalidad_1 = __importDefault(require("../routes/cita/citamodalidad"));
+const eap_1 = __importDefault(require("../routes/alumno/eap"));
+const estado_1 = __importDefault(require("../routes/alumno/estado"));
 const connection_1 = __importDefault(require("../db/connection"));
 const cors_1 = __importDefault(require("cors"));
 const alumno_2 = require("./alumno");
@@ -35,7 +40,12 @@ class Server {
     }
     routes() {
         this.app.use('/api/alumnos', alumno_1.default);
+        this.app.use('/api/eap', eap_1.default);
+        this.app.use('/api/estado', estado_1.default);
         this.app.use('/api/citas', cita_1.default);
+        this.app.use('/api/citaconfirmacion', citaconfirmacion_1.default);
+        this.app.use('/api/citamodalidad', citamodalidad_1.default);
+        this.app.use('/api/citatipo', citatipo_1.default);
     }
     midlewares() {
         this.app.use(express_1.default.json());
