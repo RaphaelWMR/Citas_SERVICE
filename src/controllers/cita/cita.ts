@@ -89,7 +89,7 @@ export const deleteCita = async (req: Request, res: Response) => {
             msg: `No existe cita con id ${id}`
         })
     else {
-        await Cita.destroy();
+        await cita.destroy();
         res.json({
             msg: `La cita fue eliminada con exito`
         });

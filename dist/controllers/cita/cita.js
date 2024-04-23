@@ -103,7 +103,7 @@ const deleteCita = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             msg: `No existe cita con id ${id}`
         });
     else {
-        yield cita_1.Cita.destroy();
+        yield cita.destroy();
         res.json({
             msg: `La cita fue eliminada con exito`
         });

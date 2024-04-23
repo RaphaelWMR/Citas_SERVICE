@@ -62,7 +62,7 @@ class Server {
             }
             catch (error) {
                 console.log('[FisiBienestar] >>>>>>>>>>>>>>>>>>>> Failed Database Connection');
-                //console.log(error);
+                console.log(error);
             }
         });
     }
