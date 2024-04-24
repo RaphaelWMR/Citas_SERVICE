@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteCita = exports.updateCita = exports.getCita = exports.getCitas = exports.postCita = void 0;
+exports.getPorcentajeCitasConfirmadas = exports.getCitasConfirmadasCount = exports.getTotalCitas = exports.getCitasCount = exports.deleteCita = exports.updateCita = exports.getCita = exports.getCitas = exports.postCita = void 0;
 const cita_1 = require("../../models/cita");
 const alumno_1 = require("../../models/alumno");
 const citaconfirmacion_1 = require("../../models/citaconfirmacion");
@@ -110,3 +110,68 @@ const deleteCita = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.deleteCita = deleteCita;
+//Funciones de agregacion
+const getCitasCount = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const ctasCount = yield cita_1.Cita.count();
+    console.log("gcc: ", ctasCount);
+    res.json({
+        ctasCount
+    });
+    return ctasCount;
+});
+exports.getCitasCount = getCitasCount;
+function getTotalCitas() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const count = yield cita_1.Cita.count(); // Use the count() method
+            return count; // Return the count directly
+        }
+        catch (error) {
+            console.error("Error while fetching cita count:", error);
+            // Handle errors appropriately (e.g., throw a specific error)
+            throw new Error("Failed to retrieve cita count");
+        }
+    });
+}
+exports.getTotalCitas = getTotalCitas;
+;
+function getCitasConfirmadasCount() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const count = yield cita_1.Cita.count({
+                where: {
+                    citaConfirmacion_id: 1,
+                },
+            }); // Use the count() method
+            return count; // Return the count directly
+        }
+        catch (error) {
+            console.error("Error while fetching cita count:", error);
+            // Handle errors appropriately (e.g., throw a specific error)
+            throw new Error("Failed to retrieve cita count");
+        }
+    });
+}
+exports.getCitasConfirmadasCount = getCitasConfirmadasCount;
+;
+// Function to calculate and return the percentage of confirmed appointments
+const getPorcentajeCitasConfirmadas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const totalCitas = getTotalCitas();
+        const confirmedCitas = yield getCitasConfirmadasCount(); // Reuse existing function
+        console.log("Total citas: ", totalCitas);
+        console.log("Total citas conf: ", confirmedCitas);
+        if ((yield totalCitas) === 0) {
+            res.json({ porcentaje: 0 }); // Handle division by zero
+        }
+        else {
+            const porcentaje = Math.round((confirmedCitas / (yield totalCitas)) * 100);
+            res.json({ porcentaje });
+        }
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: "Error calculating appointment confirmation percentage" });
+    }
+});
+exports.getPorcentajeCitasConfirmadas = getPorcentajeCitasConfirmadas;

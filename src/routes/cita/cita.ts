@@ -3,12 +3,17 @@ import {
     deleteCita,
     getCita,
     getCitas,
+    getCitasConfirmadasCount,
+    getCitasCount,
+    getPorcentajeCitasConfirmadas,
     postCita,
     updateCita
 } from "../../controllers/cita/cita";
 
 const router = Router();
-
+//AGREGACION
+router.get('/count', getCitasCount);
+router.get('/porConf', getPorcentajeCitasConfirmadas);
 //CREATE
 router.post('/', postCita);
 //READ

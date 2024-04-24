@@ -95,3 +95,63 @@ export const deleteCita = async (req: Request, res: Response) => {
         });
     }
 }
+
+//Funciones de agregacion
+
+export const getCitasCount = async (req: Request, res: Response) => {
+    const ctasCount = await Cita.count();
+    console.log("gcc: ", ctasCount);
+    res.json({
+        ctasCount
+    })
+    return ctasCount;
+};
+
+export async function getTotalCitas(): Promise<number> {
+    try {
+        const count = await Cita.count(); // Use the count() method
+        return count; // Return the count directly
+    } catch (error) {
+        console.error("Error while fetching cita count:", error);
+        // Handle errors appropriately (e.g., throw a specific error)
+        throw new Error("Failed to retrieve cita count");
+    }
+};
+
+export async function getCitasConfirmadasCount(): Promise < number > {
+    try {
+        const count = await Cita.count(
+            {
+                where: {
+                    citaConfirmacion_id: 1,
+                },
+            }
+        ); // Use the count() method
+        return count; // Return the count directly
+    } catch(error) {
+        console.error("Error while fetching cita count:", error);
+        // Handle errors appropriately (e.g., throw a specific error)
+        throw new Error("Failed to retrieve cita count");
+    }
+};
+
+
+
+// Function to calculate and return the percentage of confirmed appointments
+export const getPorcentajeCitasConfirmadas = async (req: Request, res: Response) => {
+    try {
+        const totalCitas = getTotalCitas();
+        const confirmedCitas = await getCitasConfirmadasCount(); // Reuse existing function
+        console.log("Total citas: ", totalCitas);
+        console.log("Total citas conf: ", confirmedCitas);
+        if (await totalCitas === 0) {
+            res.json({ porcentaje: 0 }); // Handle division by zero
+        } else {
+            const porcentaje = Math.round((confirmedCitas / await totalCitas) * 100);
+            res.json({ porcentaje });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: "Error calculating appointment confirmation percentage" });
+    }
+};

@@ -78,3 +78,25 @@ export const deleteAlumno = async (req: Request, res: Response) => {
         });
     }
 }
+
+//Funciones de agregacion
+
+export const getAlumnoCount = async (req: Request, res: Response) => {
+    const alumnoCount = await Alumno.count();
+
+    res.json({
+        alumnoCount
+    })
+};
+
+export const countAlumnosObservados = async (req: Request, res: Response) => {
+    const countObs = await Alumno.count({
+        where: {
+            estado_id: 1,
+        },
+    });
+    res.json({
+        countObs
+    })
+};
+

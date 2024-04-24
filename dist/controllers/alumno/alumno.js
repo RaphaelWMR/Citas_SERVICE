@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteAlumno = exports.updateAlumno = exports.getAlumno = exports.getAlumnos = exports.postAlumno = void 0;
+exports.countAlumnosObservados = exports.getAlumnoCount = exports.deleteAlumno = exports.updateAlumno = exports.getAlumno = exports.getAlumnos = exports.postAlumno = void 0;
 const alumno_1 = require("../../models/alumno");
 //CREATE
 const postAlumno = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -92,3 +92,22 @@ const deleteAlumno = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.deleteAlumno = deleteAlumno;
+//Funciones de agregacion
+const getAlumnoCount = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const alumnoCount = yield alumno_1.Alumno.count();
+    res.json({
+        alumnoCount
+    });
+});
+exports.getAlumnoCount = getAlumnoCount;
+const countAlumnosObservados = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const countObs = yield alumno_1.Alumno.count({
+        where: {
+            estado_id: 1,
+        },
+    });
+    res.json({
+        countObs
+    });
+});
+exports.countAlumnosObservados = countAlumnosObservados;
