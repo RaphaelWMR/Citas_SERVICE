@@ -23,12 +23,12 @@ Patri Carbajal, Carlo Fabrizio
 
 ## .env file
 Create a fille with this name ".env" an insert the credentials
-
-PORT = '3000'
-DB_HOST = 'localhost'
-DB_USER = 'root'
-DB_PASSWORD = ''
-
+```bash
+PORT = 'BACKEND_SERVER_PORT'
+DB_HOST = 'NAME_OF_DB'
+DB_USER = 'USER_OF_DB'
+DB_PASSWORD = 'PASSWORD_OF_DB'
+```
 ## Database
 This API connects to a MySQL database, this is the script:
 ```sql
