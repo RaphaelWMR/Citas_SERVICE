@@ -20,6 +20,15 @@ Escalante Flores, Eduardo
 Matos Ramos, W. Raphael  
 Patri Carbajal, Carlo Fabrizio
 
+
+## .env file
+Create a fille with this name ".env" an insert the credentials
+
+PORT = '3000'
+DB_HOST = 'localhost'
+DB_USER = 'root'
+DB_PASSWORD = ''
+
 ## Database
 This API connects to a MySQL database, this is the script:
 ```sql

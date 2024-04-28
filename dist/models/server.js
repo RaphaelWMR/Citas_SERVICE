@@ -27,7 +27,7 @@ const cita_2 = require("./cita");
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
-        this.port = process.env.PORT || '3001';
+        this.port = process.env.PORT || '3000';
         this.listen();
         this.midlewares();
         this.routes();
