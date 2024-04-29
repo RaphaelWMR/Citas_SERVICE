@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.countAlumnosObservados = exports.getAlumnoCount = exports.deleteAlumno = exports.updateAlumno = exports.getAlumno = exports.getAlumnos = exports.postAlumno = void 0;
+exports.countAlumnosObservados = exports.getAlumnoCount = exports.deleteAlumno = exports.updateAlumno = exports.getAlumnoByEmail = exports.getAlumno = exports.getAlumnos = exports.postAlumno = void 0;
 const alumno_1 = require("../../models/alumno");
 //CREATE
 const postAlumno = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -47,6 +47,28 @@ const getAlumno = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getAlumno = getAlumno;
+const getAlumnoByEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { email } = req.params;
+        const emailunmsm = email + "@unmsm.edu.pe";
+        const alumno = yield alumno_1.Alumno.findOne({ where: { alumno_correoElectronico: emailunmsm } });
+        if (alumno) {
+            res.json(alumno);
+        }
+        else {
+            res.status(404).json({
+                msg: `No existe un alumno con el email ${emailunmsm}`
+            });
+        }
+    }
+    catch (error) {
+        console.error('Error al buscar alumno por email:', error);
+        res.status(500).json({
+            msg: 'Error al buscar alumno. Por favor, inténtalo de nuevo.'
+        });
+    }
+});
+exports.getAlumnoByEmail = getAlumnoByEmail;
 //UPDATE
 const updateAlumno = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;

@@ -36,6 +36,28 @@ export const getAlumno = async (req: Request, res: Response) => {
     }
 }
 
+export const getAlumnoByEmail = async (req: Request, res: Response) => {
+    try {
+        const { email } = req.params;
+        const emailunmsm = email + "@unmsm.edu.pe";
+
+        const alumno = await Alumno.findOne({ where: { alumno_correoElectronico: emailunmsm } });
+
+        if (alumno) {
+            res.json(alumno);
+        } else {
+            res.status(404).json({
+                msg: `No existe un alumno con el email ${emailunmsm}`
+            });
+        }
+    } catch (error) {
+        console.error('Error al buscar alumno por email:', error);
+        res.status(500).json({
+            msg: 'Error al buscar alumno. Por favor, inténtalo de nuevo.'
+        });
+    }
+};
+
 //UPDATE
 export const updateAlumno = async (req: Request, res: Response) => {
     const { body } = req;

@@ -11,6 +11,7 @@ router.post('/', alumno_1.postAlumno);
 //READ
 router.get('/', alumno_1.getAlumnos);
 router.get('/:id', alumno_1.getAlumno);
+router.get('/email/:email', alumno_1.getAlumnoByEmail);
 //UPDATE
 router.put('/:id', alumno_1.updateAlumno);
 //DELETE

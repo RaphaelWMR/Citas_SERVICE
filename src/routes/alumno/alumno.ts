@@ -3,6 +3,7 @@ import {
     countAlumnosObservados,
     deleteAlumno,
     getAlumno,
+    getAlumnoByEmail,
     getAlumnoCount,
     getAlumnos,
     postAlumno,
@@ -21,6 +22,7 @@ router.post('/', postAlumno);
 //READ
 router.get('/', getAlumnos);
 router.get('/:id', getAlumno);
+router.get('/email/:email', getAlumnoByEmail);
 //UPDATE
 router.put('/:id', updateAlumno);
 //DELETE
