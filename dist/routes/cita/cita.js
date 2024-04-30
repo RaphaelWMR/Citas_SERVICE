@@ -11,6 +11,7 @@ router.post('/', cita_1.postCita);
 //READ
 router.get('/', cita_1.getCitas);
 router.get('/:id', cita_1.getCita);
+router.get('/alumno/:id', cita_1.getCitasByAlumno);
 //UPDATE
 router.put('/:id', cita_1.updateCita);
 //DELETE

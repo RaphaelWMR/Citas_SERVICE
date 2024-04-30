@@ -101,6 +101,8 @@ export const deleteAlumno = async (req: Request, res: Response) => {
     }
 }
 
+
+
 //Funciones de agregacion
 
 export const getAlumnoCount = async (req: Request, res: Response) => {

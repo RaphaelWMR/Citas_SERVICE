@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
     deleteCita,
     getCita,
+    getCitasByAlumno,
     getCitas,
     getCitasConfirmadasCount,
     getCitasCount,
@@ -19,6 +20,7 @@ router.post('/', postCita);
 //READ
 router.get('/', getCitas);
 router.get('/:id', getCita);
+router.get('/alumno/:id', getCitasByAlumno);
 //UPDATE
 router.put('/:id', updateCita)
 //DELETE

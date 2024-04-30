@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import db from '../db/connection';
+import { Cita } from './cita';
 
 export const Alumno = db.define('alumno',
     {
@@ -50,5 +51,4 @@ export const Alumno = db.define('alumno',
         createdAt: false,
         updatedAt: false,
         tableName: 'alumno'
-    }
-);
+    });
