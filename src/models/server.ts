@@ -31,6 +31,11 @@ class Server {
     }
 
     routes() {
+        this.app.get('/', (req: Request, res: Response) => {
+            res.json({
+                msg: 'Citas Service Running'
+            })
+        });
         this.app.use('/api/alumnos', routesAlumno);
         this.app.use('/api/eap', routesEap);
         this.app.use('/api/estado', routesEstado);

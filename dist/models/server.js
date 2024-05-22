@@ -39,6 +39,11 @@ class Server {
         });
     }
     routes() {
+        this.app.get('/', (req, res) => {
+            res.json({
+                msg: 'Citas Service Running'
+            });
+        });
         this.app.use('/api/alumnos', alumno_1.default);
         this.app.use('/api/eap', eap_1.default);
         this.app.use('/api/estado', estado_1.default);
