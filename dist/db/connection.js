@@ -12,7 +12,6 @@ const user = (_b = process.env.DB_USER) !== null && _b !== void 0 ? _b : 'root';
 const password = (_c = process.env.DB_PASSWORD) !== null && _c !== void 0 ? _c : '';
 const host = (_d = process.env.DB_HOST) !== null && _d !== void 0 ? _d : '';
 const port = (_f = parseInt((_e = process.env.DB_PORT) !== null && _e !== void 0 ? _e : '0')) !== null && _f !== void 0 ? _f : 0;
-console.log(db, user, password, host);
 const sequelize = new sequelize_1.Sequelize(db, user, password, {
     host: host,
     port: port,
