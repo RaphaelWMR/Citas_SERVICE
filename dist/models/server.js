@@ -25,11 +25,6 @@ const connection_1 = __importDefault(require("../db/connection"));
 const cors_1 = __importDefault(require("cors"));
 const alumno_2 = require("./alumno");
 const cita_2 = require("./cita");
-const corsOptions = {
-    origin: 'http://localhost:4200', // Reemplaza con el origen correcto de tu aplicación Angular
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-};
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -61,7 +56,20 @@ class Server {
     }
     midlewares() {
         this.app.use(express_1.default.json());
-        // Cors
+        // Configuración de CORS
+        const whitelist = ['http://localhost:4200', 'https://raphaelwmr.github.io/']; // Definir los orígenes permitidos
+        const corsOptions = {
+            origin: (origin, callback) => {
+                if (!origin || whitelist.indexOf(origin) !== -1) {
+                    callback(null, true);
+                }
+                else {
+                    callback(new Error('Not allowed by CORS'));
+                }
+            },
+            methods: ['GET', 'POST', 'PUT', 'DELETE'],
+            allowedHeaders: ['Content-Type', 'Authorization'],
+        };
         this.app.use((0, cors_1.default)(corsOptions));
     }
     dbConnect() {

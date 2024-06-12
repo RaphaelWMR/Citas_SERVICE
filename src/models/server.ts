@@ -12,12 +12,6 @@ import cors from 'cors';
 import { Alumno } from './alumno';
 import { Cita } from './cita';
 
-const corsOptions = {
-    origin: 'http://localhost:4200', // Reemplaza con el origen correcto de tu aplicación Angular
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-};
-
 class Server {
     private app: Application;
     private port: string;
@@ -58,7 +52,20 @@ class Server {
 
     midlewares() {
         this.app.use(express.json());
-        // Cors
+        // Configuración de CORS
+        const whitelist = ['http://localhost:4200', 'https://raphaelwmr.github.io/']; // Definir los orígenes permitidos
+        const corsOptions = {
+            origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+                if (!origin || whitelist.indexOf(origin) !== -1) {
+                    callback(null, true);
+                } else {
+                    callback(new Error('Not allowed by CORS'));
+                }
+            },
+            methods: ['GET', 'POST', 'PUT', 'DELETE'],
+            allowedHeaders: ['Content-Type', 'Authorization'],
+        };
+
         this.app.use(cors(corsOptions));
     }
 
