@@ -53,7 +53,7 @@ class Server {
     midlewares() {
         this.app.use(express.json());
         // Configuración de CORS
-        const whitelist = ['http://localhost:4200', 'https://raphaelwmr.github.io/']; // Definir los orígenes permitidos
+        const whitelist = ['http://localhost:4200', 'https://raphaelwmr.github.io']; // Definir los orígenes permitidos
         const corsOptions = {
             origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
                 if (!origin || whitelist.indexOf(origin) !== -1) {

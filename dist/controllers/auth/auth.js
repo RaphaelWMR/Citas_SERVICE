@@ -56,7 +56,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         return res.status(401).send('Credenciales inválidas'); // Invalid password
     }
     // Generate token JWT
-    const secretKey = (_a = process.env.JWT_SECRET_KEY) !== null && _a !== void 0 ? _a : '';
+    const secretKey = (_a = process.env.SECRET_KEY) !== null && _a !== void 0 ? _a : '';
     ;
     const token = jwt.sign({ id: user.user_id, role: user.user_role }, secretKey, { expiresIn: '1h' });
     return res.json({ auth: true, token: token });
