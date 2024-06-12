@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.countAlumnosObservados = exports.getAlumnoCount = exports.deleteAlumno = exports.updateAlumno = exports.getAlumnoByEmail = exports.getAlumno = exports.getAlumnos = exports.postAlumno = void 0;
+exports.getPorcentajeObservados = exports.getTotaAlumnosObservados = exports.countAlumnosObservados = exports.getTotalAlumnos = exports.getAlumnoCount = exports.deleteAlumno = exports.updateAlumno = exports.getAlumnoByEmail = exports.getAlumno = exports.getAlumnos = exports.postAlumno = void 0;
 const alumno_1 = require("../../models/alumno");
 //CREATE
 const postAlumno = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -122,6 +122,21 @@ const getAlumnoCount = (req, res) => __awaiter(void 0, void 0, void 0, function*
     });
 });
 exports.getAlumnoCount = getAlumnoCount;
+function getTotalAlumnos() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const count = yield alumno_1.Alumno.count(); // Use the count() method
+            return count; // Return the count directly
+        }
+        catch (error) {
+            console.error("Error while fetching alumno count:", error);
+            // Handle errors appropriately (e.g., throw a specific error)
+            throw new Error("Failed to retrieve alumno count");
+        }
+    });
+}
+exports.getTotalAlumnos = getTotalAlumnos;
+;
 const countAlumnosObservados = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const countObs = yield alumno_1.Alumno.count({
         where: {
@@ -133,3 +148,44 @@ const countAlumnosObservados = (req, res) => __awaiter(void 0, void 0, void 0, f
     });
 });
 exports.countAlumnosObservados = countAlumnosObservados;
+function getTotaAlumnosObservados() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const count = yield alumno_1.Alumno.count({
+                where: {
+                    estado_id: 1,
+                },
+            }); // Use the count() method
+            return count; // Return the count directly
+        }
+        catch (error) {
+            console.error("Error while fetching alumbnoobs count:", error);
+            // Handle errors appropriately (e.g., throw a specific error)
+            throw new Error("Failed to retrieve alumbnoobs count");
+        }
+    });
+}
+exports.getTotaAlumnosObservados = getTotaAlumnosObservados;
+;
+const getPorcentajeObservados = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const totalAlumnos = getTotalAlumnos();
+        const alumnosObs = yield getTotaAlumnosObservados();
+        console.log("Total totalAlumnos: ", totalAlumnos);
+        console.log("Total alumnosObs: ", alumnosObs);
+        if ((yield totalAlumnos) === 0) {
+            res.json({ porcentaje: 0 }); // Handle division by zero
+        }
+        else {
+            const porcentaje = Math.round((alumnosObs / (yield totalAlumnos)) * 100);
+            res.json({ porcentaje });
+        }
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: "Error calculating obs percentage"
+        });
+    }
+});
+exports.getPorcentajeObservados = getPorcentajeObservados;

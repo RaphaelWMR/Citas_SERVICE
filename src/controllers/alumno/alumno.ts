@@ -113,6 +113,20 @@ export const getAlumnoCount = async (req: Request, res: Response) => {
     })
 };
 
+
+export async function getTotalAlumnos(): Promise<number> {
+    try {
+        const count = await Alumno.count(); // Use the count() method
+        return count; // Return the count directly
+    } catch (error) {
+        console.error("Error while fetching alumno count:", error);
+        // Handle errors appropriately (e.g., throw a specific error)
+        throw new Error("Failed to retrieve alumno count");
+    }
+};
+
+
+
 export const countAlumnosObservados = async (req: Request, res: Response) => {
     const countObs = await Alumno.count({
         where: {
@@ -124,3 +138,39 @@ export const countAlumnosObservados = async (req: Request, res: Response) => {
     })
 };
 
+export async function getTotaAlumnosObservados(): Promise<number> {
+    try {
+        const count = await Alumno.count(
+            {
+                where: {
+                    estado_id: 1,
+                },
+            }
+        ); // Use the count() method
+        return count; // Return the count directly
+    } catch (error) {
+        console.error("Error while fetching alumbnoobs count:", error);
+        // Handle errors appropriately (e.g., throw a specific error)
+        throw new Error("Failed to retrieve alumbnoobs count");
+    }
+};
+
+export const getPorcentajeObservados = async (req: Request, res: Response) => {
+    try {
+        const totalAlumnos = getTotalAlumnos();
+        const alumnosObs = await getTotaAlumnosObservados();
+        console.log("Total totalAlumnos: ", totalAlumnos);
+        console.log("Total alumnosObs: ", alumnosObs);
+        if (await totalAlumnos === 0) {
+            res.json({ porcentaje: 0 }); // Handle division by zero
+        } else {
+            const porcentaje = Math.round((alumnosObs / await totalAlumnos) * 100);
+            res.json({ porcentaje });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: "Error calculating obs percentage"
+        });
+    }
+}

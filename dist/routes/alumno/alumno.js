@@ -6,6 +6,7 @@ const router = (0, express_1.Router)();
 //AGREGACION
 router.get('/count', alumno_1.getAlumnoCount);
 router.get('/countObs', alumno_1.countAlumnosObservados);
+router.get('/percObs', alumno_1.getPorcentajeObservados);
 //CREATE
 router.post('/', alumno_1.postAlumno);
 //READ
