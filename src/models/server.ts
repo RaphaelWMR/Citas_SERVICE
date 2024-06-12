@@ -12,9 +12,17 @@ import cors from 'cors';
 import { Alumno } from './alumno';
 import { Cita } from './cita';
 
+const corsOptions = {
+    origin: 'http://localhost:4200', // Reemplaza con el origen correcto de tu aplicación Angular
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
 class Server {
     private app: Application;
     private port: string;
+
+
 
     constructor() {
         this.app = express();
@@ -46,10 +54,12 @@ class Server {
         this.app.use('/api/citatipo', routesTipo);
         this.app.use('/auth', routesAuth);
     }
+
+
     midlewares() {
         this.app.use(express.json());
         // Cors
-        this.app.use(cors());
+        this.app.use(cors(corsOptions));
     }
 
     async dbConnect() {
