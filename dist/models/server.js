@@ -20,6 +20,7 @@ const citatipo_1 = __importDefault(require("../routes/cita/citatipo"));
 const citamodalidad_1 = __importDefault(require("../routes/cita/citamodalidad"));
 const eap_1 = __importDefault(require("../routes/alumno/eap"));
 const estado_1 = __importDefault(require("../routes/alumno/estado"));
+const auth_1 = __importDefault(require("../routes/auth/auth"));
 const connection_1 = __importDefault(require("../db/connection"));
 const cors_1 = __importDefault(require("cors"));
 const alumno_2 = require("./alumno");
@@ -51,6 +52,7 @@ class Server {
         this.app.use('/api/citaconfirmacion', citaconfirmacion_1.default);
         this.app.use('/api/citamodalidad', citamodalidad_1.default);
         this.app.use('/api/citatipo', citatipo_1.default);
+        this.app.use('/auth', auth_1.default);
     }
     midlewares() {
         this.app.use(express_1.default.json());

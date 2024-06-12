@@ -1,0 +1,44 @@
+import * as jwt from 'jsonwebtoken';
+import * as bcrypt from 'bcryptjs';
+
+
+// Interface for User data (avoid storing passwords in plain text)
+interface User {
+    user_id: number;
+    user_name: string;
+    user_password: string; // Hashed password (store only the hash)
+    user_role: string;
+}
+
+// Simulación de usuarios almacenados (consider using a secure database)
+const users: User[] = [
+    { user_id: 1, user_name: 'wilfredo.matos', user_password: bcrypt.hashSync('1234', 10), user_role: 'user' }, // Hash the password
+    { user_id: 2, user_name: 'eduardo.escalante1', user_password: bcrypt.hashSync('1234', 10), user_role: 'user' },
+    { user_id: 0, user_name: 'karla.sanchez', user_password: bcrypt.hashSync('1234', 10), user_role: 'admin' },
+];
+
+// Función para autenticación de usuarios
+const login = async (req: any, res: any) => {
+    const { user_name, user_password } = req.body;
+
+    // Find user by username
+    const user = users.find(u => u.user_name === user_name);
+
+    if (!user) {
+        return res.status(401).send('Credenciales inválidas'); // User not found
+    }
+
+    // Validate password using bcrypt.compare (never compare plain text passwords)
+    const validPassword = await bcrypt.compare(user_password, user.user_password); // Async operation
+
+    if (!validPassword) {
+        return res.status(401).send('Credenciales inválidas'); // Invalid password
+    }
+
+    // Generate token JWT
+    const token = jwt.sign({ id: user.user_id, role: user.user_role }, 'your_secret_key', { expiresIn: '1h' });
+
+    return res.json({ auth: true, token: token });
+};
+
+export { login };
