@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPorcentajeCitasConfirmadas = exports.getCitasConfirmadasCount = exports.getTotalCitas = exports.getCitasCount = exports.deleteCita = exports.updateCita = exports.getCita = exports.getCitasByAlumno = exports.getCitas = exports.postCita = void 0;
+exports.getModalidadCitas = exports.getModalidadPresencial = exports.getModalidadVirtual = exports.getPorcentajeCitasConfirmadas = exports.getCitasConfirmadasCount = exports.getTotalCitas = exports.getCitasCount = exports.deleteCita = exports.updateCita = exports.getCita = exports.getCitasByAlumno = exports.getCitas = exports.postCita = void 0;
 const cita_1 = require("../../models/cita");
 const alumno_1 = require("../../models/alumno");
 const citaconfirmacion_1 = require("../../models/citaconfirmacion");
@@ -243,3 +243,53 @@ const getPorcentajeCitasConfirmadas = (req, res) => __awaiter(void 0, void 0, vo
     }
 });
 exports.getPorcentajeCitasConfirmadas = getPorcentajeCitasConfirmadas;
+function getModalidadVirtual() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const count = yield cita_1.Cita.count({
+                where: {
+                    citaModalidad_id: 1,
+                },
+            }); // Use the count() method
+            return count; // Return the count directly
+        }
+        catch (error) {
+            console.error("Error while fetching cita virtual:", error);
+            // Handle errors appropriately (e.g., throw a specific error)
+            throw new Error("Failed to retrieve cita virtual");
+        }
+    });
+}
+exports.getModalidadVirtual = getModalidadVirtual;
+;
+function getModalidadPresencial() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const count = yield cita_1.Cita.count({
+                where: {
+                    citaModalidad_id: 0,
+                },
+            }); // Use the count() method
+            return count; // Return the count directly
+        }
+        catch (error) {
+            console.error("Error while fetching cita presencial:", error);
+            // Handle errors appropriately (e.g., throw a specific error)
+            throw new Error("Failed to retrieve cita presencial");
+        }
+    });
+}
+exports.getModalidadPresencial = getModalidadPresencial;
+;
+const getModalidadCitas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const virtual = yield getModalidadVirtual();
+        const presencial = yield getModalidadPresencial();
+        res.json({ virtual, presencial });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: "Error calculating modalidad " });
+    }
+});
+exports.getModalidadCitas = getModalidadCitas;

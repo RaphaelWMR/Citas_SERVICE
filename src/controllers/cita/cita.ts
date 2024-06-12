@@ -226,3 +226,50 @@ export const getPorcentajeCitasConfirmadas = async (req: Request, res: Response)
         res.status(500).json({ msg: "Error calculating appointment confirmation percentage" });
     }
 };
+
+
+export async function getModalidadVirtual(): Promise<number> {
+    try {
+        const count = await Cita.count(
+            {
+                where: {
+                    citaModalidad_id: 1,
+                },
+            }
+        ); // Use the count() method
+        return count; // Return the count directly
+    } catch (error) {
+        console.error("Error while fetching cita virtual:", error);
+        // Handle errors appropriately (e.g., throw a specific error)
+        throw new Error("Failed to retrieve cita virtual");
+    }
+};
+
+export async function getModalidadPresencial(): Promise<number> {
+    try {
+        const count = await Cita.count(
+            {
+                where: {
+                    citaModalidad_id: 0,
+                },
+            }
+        ); // Use the count() method
+        return count; // Return the count directly
+    } catch (error) {
+        console.error("Error while fetching cita presencial:", error);
+        // Handle errors appropriately (e.g., throw a specific error)
+        throw new Error("Failed to retrieve cita presencial");
+    }
+};
+
+export const getModalidadCitas = async (req: Request, res: Response) => {
+    try {
+        const virtual = await getModalidadVirtual();
+        const presencial = await getModalidadPresencial(); 
+
+        res.json({ virtual, presencial });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: "Error calculating modalidad " });
+    }
+};

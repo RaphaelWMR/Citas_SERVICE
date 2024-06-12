@@ -6,6 +6,7 @@ const router = (0, express_1.Router)();
 //AGREGACION
 router.get('/count', cita_1.getCitasCount);
 router.get('/porConf', cita_1.getPorcentajeCitasConfirmadas);
+router.get('/countmodalidad', cita_1.getModalidadCitas);
 //CREATE
 router.post('/', cita_1.postCita);
 //READ
