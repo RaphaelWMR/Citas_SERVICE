@@ -43,6 +43,7 @@ const users = [
 ];
 // Función para autenticación de usuarios
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     const { user_name, user_password } = req.body;
     // Find user by username
     const user = users.find(u => u.user_name === user_name);
@@ -55,7 +56,9 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         return res.status(401).send('Credenciales inválidas'); // Invalid password
     }
     // Generate token JWT
-    const token = jwt.sign({ id: user.user_id, role: user.user_role }, 'your_secret_key', { expiresIn: '1h' });
+    const secretKey = (_a = process.env.JWT_SECRET_KEY) !== null && _a !== void 0 ? _a : '';
+    ;
+    const token = jwt.sign({ id: user.user_id, role: user.user_role }, secretKey, { expiresIn: '1h' });
     return res.json({ auth: true, token: token });
 });
 exports.login = login;
