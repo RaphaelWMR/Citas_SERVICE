@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getModalidadCitas = exports.getModalidadPresencial = exports.getModalidadVirtual = exports.getPorcentajeCitasConfirmadas = exports.getCitasConfirmadasCount = exports.getTotalCitas = exports.getCitasCount = exports.deleteCita = exports.updateCita = exports.getCita = exports.getCitasByAlumno = exports.getCitas = exports.postCita = void 0;
+exports.getTipoCitasCount = exports.getTipoAPS = exports.getTipoACM = exports.getModalidadCitas = exports.getModalidadPresencial = exports.getModalidadVirtual = exports.getPorcentajeCitasConfirmadas = exports.getCitasConfirmadasCount = exports.getTotalCitas = exports.getCitasCount = exports.deleteCita = exports.updateCita = exports.getCita = exports.getCitasByAlumno = exports.getCitas = exports.postCita = void 0;
 const cita_1 = require("../../models/cita");
 const alumno_1 = require("../../models/alumno");
 const citaconfirmacion_1 = require("../../models/citaconfirmacion");
@@ -293,3 +293,53 @@ const getModalidadCitas = (req, res) => __awaiter(void 0, void 0, void 0, functi
     }
 });
 exports.getModalidadCitas = getModalidadCitas;
+function getTipoACM() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const count = yield cita_1.Cita.count({
+                where: {
+                    citaTipo_id: 1,
+                },
+            }); // Use the count() method
+            return count; // Return the count directly
+        }
+        catch (error) {
+            console.error("Error while fetching cita virtual:", error);
+            // Handle errors appropriately (e.g., throw a specific error)
+            throw new Error("Failed to retrieve cita virtual");
+        }
+    });
+}
+exports.getTipoACM = getTipoACM;
+;
+function getTipoAPS() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const count = yield cita_1.Cita.count({
+                where: {
+                    citaModalidad_id: 0,
+                },
+            }); // Use the count() method
+            return count; // Return the count directly
+        }
+        catch (error) {
+            console.error("Error while fetching cita presencial:", error);
+            // Handle errors appropriately (e.g., throw a specific error)
+            throw new Error("Failed to retrieve cita presencial");
+        }
+    });
+}
+exports.getTipoAPS = getTipoAPS;
+;
+const getTipoCitasCount = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const adm = yield getTipoACM();
+        const psico = yield getTipoAPS();
+        res.json({ adm, psico });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: "Error calculating modalidad " });
+    }
+});
+exports.getTipoCitasCount = getTipoCitasCount;

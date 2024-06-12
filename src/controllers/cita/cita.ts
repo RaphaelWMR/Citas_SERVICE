@@ -273,3 +273,49 @@ export const getModalidadCitas = async (req: Request, res: Response) => {
         res.status(500).json({ msg: "Error calculating modalidad " });
     }
 };
+
+export async function getTipoACM(): Promise<number> {
+    try {
+        const count = await Cita.count(
+            {
+                where: {
+                    citaTipo_id: 1,
+                },
+            }
+        ); // Use the count() method
+        return count; // Return the count directly
+    } catch (error) {
+        console.error("Error while fetching cita virtual:", error);
+        // Handle errors appropriately (e.g., throw a specific error)
+        throw new Error("Failed to retrieve cita virtual");
+    }
+};
+
+export async function getTipoAPS(): Promise<number> {
+    try {
+        const count = await Cita.count(
+            {
+                where: {
+                    citaModalidad_id: 0,
+                },
+            }
+        ); // Use the count() method
+        return count; // Return the count directly
+    } catch (error) {
+        console.error("Error while fetching cita presencial:", error);
+        // Handle errors appropriately (e.g., throw a specific error)
+        throw new Error("Failed to retrieve cita presencial");
+    }
+};
+
+export const getTipoCitasCount = async (req: Request, res: Response) => {
+    try {
+        const adm = await getTipoACM();
+        const psico = await getTipoAPS(); 
+
+        res.json({ adm, psico });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: "Error calculating modalidad " });
+    }
+};

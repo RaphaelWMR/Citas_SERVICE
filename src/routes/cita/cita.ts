@@ -9,7 +9,8 @@ import {
     getPorcentajeCitasConfirmadas,
     postCita,
     updateCita,
-    getModalidadCitas
+    getModalidadCitas,
+    getTipoCitasCount
 } from "../../controllers/cita/cita";
 import { getModalidad } from "../../controllers/cita/citamodalidad";
 
@@ -17,7 +18,8 @@ const router = Router();
 //AGREGACION
 router.get('/count', getCitasCount);
 router.get('/porConf', getPorcentajeCitasConfirmadas);
-router.get('/countmodalidad',getModalidadCitas)
+router.get('/countmodalidad',getModalidadCitas);
+router.get('/counttipo',getTipoCitasCount);
 //CREATE
 router.post('/', postCita);
 //READ

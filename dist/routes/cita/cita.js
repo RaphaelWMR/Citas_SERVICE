@@ -7,6 +7,7 @@ const router = (0, express_1.Router)();
 router.get('/count', cita_1.getCitasCount);
 router.get('/porConf', cita_1.getPorcentajeCitasConfirmadas);
 router.get('/countmodalidad', cita_1.getModalidadCitas);
+router.get('/counttipo', cita_1.getTipoCitasCount);
 //CREATE
 router.post('/', cita_1.postCita);
 //READ
